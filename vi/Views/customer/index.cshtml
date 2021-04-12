@@ -1,0 +1,75 @@
+﻿@using vi.viewModel
+@using vi.Models
+
+
+@{
+    ViewBag.Title = "customerView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="container">
+        <h1>Customer</h1>
+      
+        <table class="table table-responsive table-bordered table-hover" id="customer">
+           <thead> 
+               <tr>
+                   <th class="bg-primary">Customers</th>
+                   <th class="bg-primary">Discount Rate</th>
+                   <th class="bg-primary">Delete</th>
+
+               </tr>
+           </thead>
+            <tbody>
+           
+                </tbody>
+        </table>
+        
+        
+    </div>
+@section scripts{
+    <script>
+
+    $(document).ready(function () {
+       var table= $("#customer").DataTable({
+            ajax: {
+                url: "/api/customers/",
+                    dataSrc:""
+
+            },
+            columns: [
+                {
+                data: "name",
+                render: function (data, type, customer) {
+                    return "<a href='customers/Edit/" + customer.id + "'>"+data+"</a>";
+                }
+                },
+                {
+                    data:"membershipType.membershipName",
+                },
+                {
+                    data: "id",
+                    render: function (data) {
+                        return "<button class='btn btn-link js-delete' data-customer-id='" + data + "' >Delete</button>";
+                    }
+                }
+
+
+            ]
+        });
+        $("#customer ").on("click",".js-delete", function () {
+            var button = $(this);
+            bootbox.confirm("do you want to remove this customer", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/api/customers/" + button.attr("data-customer-id"),
+                        method: "delete",
+                        success: function () {
+                            table.row(button.parents("tr")).remove().draw();
+                        }
+                    });
+                }
+            })
+
+        });
+    });
+    </script>
+ }

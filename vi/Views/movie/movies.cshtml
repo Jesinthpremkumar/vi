@@ -1,0 +1,30 @@
+﻿@using vi.viewModel
+
+@{
+    ViewBag.Title = "Movies";
+    
+}
+<h1> Movies</h1>
+@Html.ActionLink("New","new","movie",null,new { @class="btn btn-primary"})
+   
+   
+
+    <table class="table-bordered table table-responsive table-hover">
+        <thead ><tr class="success">
+            <th>Movie</th>
+            <th>Genre</th>
+            </tr></thead>
+            @foreach(var i in Model)
+            {
+    <tr>
+        <td>
+           @Html.ActionLink((string)i.name, "Edit", "movie",new { id=i.id},null)
+        </td>
+        <td>
+            @i.genreType.genre
+        </td>
+
+    </tr>
+            }
+    
+    </table>

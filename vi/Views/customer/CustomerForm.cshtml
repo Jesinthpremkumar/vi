@@ -1,0 +1,53 @@
+﻿
+@model vi.viewModel.CustomerFormViewModel
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>
+        @if (Model.customer.id ==0)
+        {
+            <text>New</text>
+            ViewBag.Title = "New";
+
+        }
+        else
+        {
+            <text>Edit
+            </text>
+            ViewBag.Title = "Edit";
+        }Customer
+    </h2>
+@using (@Html.BeginForm("save", "customer"))
+{
+   @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.name)
+        @Html.TextBoxFor(m => m.customer.name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m=>m.customer.name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.DateOfBirth)
+        @Html.TextBoxFor(m => m.customer.DateOfBirth, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.customer.DateOfBirth)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.MembershipTypeId)
+        @Html.DropDownListFor(m => m.customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "MembershipName"), "Select MembershipType", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.customer.MembershipTypeId)
+    </div>
+    <div class=" form-group checkbox">
+        @Html.CheckBoxFor(m => m.customer.isSubscribedToNewsletter, new { @class = "" })
+        @Html.LabelFor(m => m.customer.isSubscribedToNewsletter)
+        @Html.ValidationMessageFor(m => m.customer.isSubscribedToNewsletter)
+    </div>
+    <div>
+        @Html.HiddenFor(m=>m.customer.id)
+        @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-default ">Save</button>
+        </div>
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    }

@@ -1,0 +1,53 @@
+﻿@model vi.viewModel.AddMoviesViewModel
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    @if (Model.Movie == null)
+    {
+        <text>New</text>
+        ViewBag.Title = "New";
+
+    }
+    else
+    {
+        <text>Edit
+        </text>
+        ViewBag.Title = "Edit";
+    } Movie
+</h2>
+
+@using (@Html.BeginForm("AddMovie", "movie"))
+{@Html.ValidationSummary(true,"Fill all the details")
+<div class="form-group">
+    @Html.LabelFor(m => m.Movie.name)
+    @Html.TextBoxFor(m => m.Movie.name, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m=>m.Movie.name)
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Movie.dateReleased)
+    @Html.TextBoxFor(m => m.Movie.dateReleased, "{0:d MMM yyyy}", new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Movie.dateReleased)
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Movie.genreTypeId)
+    @Html.DropDownListFor(m => m.Movie.genreTypeId, new SelectList(Model.Genres, "Id", "genre"), " ", new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Movie.genreTypeId)
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Movie.stockAvailable)
+    @Html.TextBoxFor(m => m.Movie.stockAvailable, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Movie.stockAvailable)
+</div>
+<div class="form-group">
+    @Html.HiddenFor(m => m.Movie.id)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Add</button>
+</div>
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval");
+}
+
