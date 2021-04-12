@@ -10,6 +10,7 @@ namespace vi.Controllers
     {
         public ActionResult Index()
         {
+           
             return View();
         }
 
